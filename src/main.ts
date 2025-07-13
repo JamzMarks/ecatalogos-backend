@@ -1,19 +1,21 @@
-import express, { Request, Response } from "express";
-import productsRouter from './routes/product.routes'
+import express from "express";
+import productsRouter from "./routes/product.routes";
+import { errorHandler } from "./middlewares/errorHandler.middleware";
+import { swaggerDocument } from "./docs/swagger";
+import swaggerUi from "swagger-ui-express";
+
 const app = express();
 const port = process.env.PORT ?? 3000;
 
 app.use(express.json());
-
-app.use("/products", productsRouter);
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use("/api/v1", productsRouter);
 
 app.get("/", (req, res) => {
   res.send("Health Check!");
 });
 
+app.use(errorHandler);
 app.listen(port, () => {
-    console.log("Hello TypeScript Node!", port) 
-})
-
-
-
+  console.log("Api running on port:", port);
+});
