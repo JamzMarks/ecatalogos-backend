@@ -1,8 +1,12 @@
-datasource db {
-  provider = "mysql"
-  url      = "mysql://myuser:mypass@localhost:3307/painel_forca_de_vendas_dev"
+
+generator client {
+  provider = "prisma-client-js"
 }
 
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
 model brands {
   id                     Int        @id @default(autoincrement())
   name                   String     @db.VarChar(45)
