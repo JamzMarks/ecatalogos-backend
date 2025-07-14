@@ -12,7 +12,7 @@ export class ProductController {
     next: NextFunction
   ) => {
     try {
-      const products = await this.productService.getProducts();
+      const products = await this.productService.getProducts(req.query);
       res.json(products);
     } catch (err: unknown) {
       next(err);
@@ -84,7 +84,7 @@ export class ProductController {
     next: NextFunction
   ) => {
     try {
-      const products = await this.productService.getProducts();
+      const products = await this.productService.getDeletedProducts();
       res.json(products);
     } catch (err: unknown) {
       next(err);
@@ -98,9 +98,36 @@ export class ProductController {
   ) => {
     const productId = req.params.id;
     try {
-      const product = await this.productService.getProductById(productId);
+      const product = await this.productService.getDeletedProductsById(productId);
       res.json(product);
     } catch (err: unknown) {
+      next(err);
+    }
+  };
+
+  public getFilters = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const filters = await this.productService.getFilters();
+      res.json(filters);
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  public getProductsCount = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    // const filters= req.body.filters;
+    try {
+      const productsCount = await this.productService.getProductsCount(req.query);
+      res.json(productsCount);
+    } catch (err) {
       next(err);
     }
   };
