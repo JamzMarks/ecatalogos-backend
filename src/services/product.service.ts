@@ -140,7 +140,7 @@ export class ProductService {
     }
 
     return products;
-  }
+  };
 
   public getDeletedProductsById = async (id: string) => {
     const isValidId = validateIsNumeric(id);
@@ -149,7 +149,7 @@ export class ProductService {
     }
     const numericId = Number(id);
     const product = await prisma.products.findFirst({
-      where: { id: numericId, deleted_at: { not: null }, },
+      where: { id: numericId, deleted_at: { not: null } },
       include: {
         brands: true,
         categories: true,
