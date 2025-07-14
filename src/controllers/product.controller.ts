@@ -39,9 +39,9 @@ export class ProductController {
     next: NextFunction
   ) => {
     const productId = req.params.id;
-    const product = req.body;
+    const productData = req.body;
     try {
-      const product = await this.productService.getProductById(productId);
+      const product = await this.productService.updateProduct(productId, productData);
       res.json(product);
     } catch (err: unknown) {
       next(err);
@@ -53,10 +53,9 @@ export class ProductController {
     res: Response,
     next: NextFunction
   ) => {
-    const productId = req.params.id;
-    const product = req.body;
+    const productData = req.body;
     try {
-      const product = await this.productService.getProductById(productId);
+      const product = await this.productService.createProduct(productData);
       res.json(product);
     } catch (err: unknown) {
       next(err);
@@ -70,7 +69,7 @@ export class ProductController {
   ) => {
     const productId = req.params.id;
     try {
-      const product = await this.productService.getProductById(productId);
+      const product = await this.productService.deleteProduct(productId);
       res.json(product);
     } catch (err: unknown) {
       next(err);
