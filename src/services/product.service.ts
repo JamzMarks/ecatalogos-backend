@@ -56,45 +56,55 @@ export class ProductService {
   };
 
   async createProduct(
-  data: Prisma.productsCreateInput & {
-    variants?: VariantCreateInput[];
-  }
-) {
-  const {
-    brand_id,
-    category_id,
-    subcategory_id,
-    variants,
-    ...productFields
-  } = data as any;
-
-  // Validação das chaves estrangeiras
-  const brandExists = await prisma.brands.findUnique({
-    where: { id: brand_id },
-  });
-  if (!brandExists) throw new Error(`brand_id ${brand_id} não existe`);
-
-  const categoryExists = await prisma.categories.findUnique({
-    where: { id: category_id },
-  });
-  if (!categoryExists) throw new Error(`category_id ${category_id} não existe`);
-
-  if (subcategory_id !== undefined && subcategory_id !== null) {
-    const subcategoryExists = await prisma.subcategories.findUnique({
-      where: { id: subcategory_id },
-    });
-    if (!subcategoryExists) throw new Error(`subcategory_id ${subcategory_id} não existe`);
-  }
-  return prisma.products.create({
-    data: {
-      ...productFields,
+    data: Prisma.productsCreateInput & {
+      variants?: VariantCreateInput[];
+    }
+  ) {
+    const {
       brand_id,
       category_id,
       subcategory_id,
-      variants: buildVariants(variants),
-    },
-  });
-}
+      variants,
+      ...productFields
+    } = data as any;
+
+    // Validação das chaves estrangeiras
+    const brandExists = await prisma.brands.findUnique({
+      where: { id: brand_id },
+    });
+    if (!brandExists) throw new Error(`brand_id ${brand_id} não existe`);
+
+    const categoryExists = await prisma.categories.findUnique({
+      where: { id: category_id },
+    });
+    if (!categoryExists)
+      throw new Error(`category_id ${category_id} não existe`);
+
+    if (subcategory_id !== undefined && subcategory_id !== null) {
+      const subcategoryExists = await prisma.subcategories.findUnique({
+        where: { id: subcategory_id },
+      });
+      if (!subcategoryExists)
+        throw new Error(`subcategory_id ${subcategory_id} não existe`);
+    }
+
+    //para company apenas funciona caso tenha company ID para FK
+    // const companyExists = await prisma.companies.findUnique({
+    //   where: { id: productFields.company_id },
+    // });
+    // if (!companyExists)
+    //   throw new Error(`company_id ${productFields.company_id} não existe`);
+    
+    return prisma.products.create({
+      data: {
+        ...productFields,
+        brand_id,
+        category_id,
+        subcategory_id,
+        variants: buildVariants(variants),
+      },
+    });
+  }
 
   public updateProduct = async (
     id: string,
