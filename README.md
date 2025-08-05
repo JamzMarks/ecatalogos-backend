@@ -26,7 +26,6 @@ API REST construída com **Node.js** e **Express** para gerenciamento de catálo
 │   ├── middlewares/
 │   ├── utils/
 │   └── config/
-├── tests/            # (se aplicável)
 ├── .env.example
 ├── package.json
 └── README.md
@@ -50,19 +49,6 @@ npx prisma migrate dev
 npm run dev
 
 📚 Endpoints Principais
-🔐 Autenticação
-POST /auth/login – login → retorna token JWT
-
-POST /auth/register – cria nova conta
-
-👤 Usuários
-GET /users – lista usuários (admin)
-
-GET /users/:id – detalhe do usuário
-
-PUT /users/:id – atualizar dados
-
-DELETE /users/:id – remover usuário
 
 📦 Produtos & Categorias
 GET /categories
@@ -83,13 +69,3 @@ PUT /products/:id
 
 DELETE /products/:id
 
-🛒 Carrinho / Checkout
-GET /cart
-
-POST /cart/:productId
-
-PUT /cart/:productId
-
-DELETE /cart/:productId
-
-POST /cart/checkout
